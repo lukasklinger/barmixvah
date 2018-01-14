@@ -15,6 +15,28 @@ $(document).ready(function () {
     resizeContainers();
   };
 
+  socket.on("Drink Status", function(status) {
+      if (status === "Pending") {
+        $('#makeText').text('Pending...');
+      } else if (status === "Moving") {
+        $('#makeText').text('Moving..');
+      }
+      else if (status === "Making") {
+        $('#makeText').text('MAKE');
+        $('#makeProgress').show();
+        setTimeout(function () {
+          console.log("Time to dispense drink: " + $scope.pumpTime + "ms");
+          $('#makeProgress').animate({
+            'margin-left': String($(window).width()) + 'px'
+          }, parseInt($scope.pumpTime), 'linear', function () {
+            $('#make').removeClass('disabled');
+            $('#makeProgress').hide();
+            $('#makeProgress').css('margin-left', '-10px');
+          });
+        }, 200);
+      }
+  });
+
   $('.mixers').on('change click touch blur', function () {
     resizeContainers();
   });
@@ -33,20 +55,9 @@ $(document).ready(function () {
     // Visual goodies
     console.log('Making Drink');
     $('#make').addClass('disabled');
-    $('#makeProgress').show();
-    setTimeout(function () {
-      console.log("Time to Dispense Drink: " + $scope.pumpTime + "ms");
-      $('#makeProgress').animate({
-        'margin-left': String($(window).width()) + 'px'
-      }, parseInt($scope.pumpTime), 'linear', function () {
-        $('#make').removeClass('disabled');
-        $('#makeProgress').hide();
-        $('#makeProgress').css('margin-left', '-10px');
-      });
-    }, 200);
 
     // Start dispensing drink
-    makeDrink($scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkTime));
+    makeDrink($scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkTime), parseInt($scope.selectedSlot));
   });
   
   // $('.drinkName').mouseover(function () {
@@ -64,6 +75,13 @@ $(document).ready(function () {
       $(this).removeClass('selectedSize');
     });
     $(this).addClass('selectedSize');
+  });
+
+  $('.drinkSlot').on('click touch', function () {
+    $('.drinkSlot').each(function () {
+      $(this).removeClass('selectedSlot');
+    });
+    $(this).addClass('selectedSlot');
   });
 
   var pumpControlsVisible = false;
@@ -156,7 +174,7 @@ function animateBackground() {
   });
 }
 
-function makeDrink(ingredients, pumps, drinkSize) {
+function makeDrink(ingredients, pumps, drinkSize, slot) {
   // Check that there are no duplicate pumps ingredients
   if ($scope.pumpDuplicates > 0) {
     alert("Pump values must be unique");
@@ -198,7 +216,7 @@ function makeDrink(ingredients, pumps, drinkSize) {
     ingredients[i].delay = ingredients[largestIndex].amount - ingredients[i].amount;
   }
 
-  socket.emit("Make Drink", ingredients);
+  socket.emit("Make Drink", ingredients, slot);
 }
 
 function startOnePump(self) {

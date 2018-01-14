@@ -24,6 +24,7 @@ function DrinkController($scope, $http) {
   $scope.selectedDrink;
   $scope.drinkTime = 10000;
   $scope.pumpTime = 0;
+  $scope.selectedSlot = 1;
 
   $scope.pumpDuplicates = 0;
 
@@ -112,6 +113,10 @@ function DrinkController($scope, $http) {
     }
   };
 
+  $scope.selectSlot = function (slot) {
+    $scope.selectedSlot = slot + 1;
+  };
+
   $scope.addNewDrink = function () {
     $http.post('/drink.json', $scope.newDrink).success(function (data) {
       console.log(data.drink);
@@ -194,5 +199,9 @@ function DrinkController($scope, $http) {
       console.log("Success");
       console.log(data);
     });
+  };
+
+  $scope.numberToArray = function(num) {
+    return new Array(num);   
   };
 }

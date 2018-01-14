@@ -154,7 +154,7 @@ a {
   text-align: center;
 }
 
-.drinkSize {
+.drinkSize, .drinkSlot {
   display: inline-block;
   width: 150px;
   height: 150px;
@@ -174,7 +174,7 @@ a {
   background-color: #888888 !important;
 }
 
-.selectedSize {
+.selectedSize, .selectedSlot {
   background-color: #FFCCCC !important;
 }
 

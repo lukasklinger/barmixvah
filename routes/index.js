@@ -1,12 +1,22 @@
+var config = require('config');
+
 /* GET home page. */
 exports.index = function (Drink, Pump) {
   return function (req, res) {
     Drink.find({}, function (err, drinks) {
       Pump.find({}, function (err, pumps) {
+
+        var isMultiGlass = config.has('Robot.multiGlassMode') && 
+          config.get('Robot.multiGlassMode') == true;
+
+        var numOfSlots = (isMultiGlass && config.has('Robot.numOfSlots') && 
+          config.get('Robot.numOfSlots') > 1) ? config.get('Robot.numOfSlots') : 1;
+
         res.render('index', { 
           title: "Bar Mixvah: The Automatic Bartender Robot" ,
           drinks: drinks,
-          pumps: pumps
+          pumps: pumps,
+          numOfSlots : numOfSlots
         });
       });
     });

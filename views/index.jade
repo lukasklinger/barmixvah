@@ -42,6 +42,11 @@ block content
         div#sizeMedium.drinkSize(ng-click="selectSize('200')") 200ml
         div#sizeLarge.drinkSize(ng-click="selectSize('400')")  400ml
 
+      div#selectSlot(ng-show="#{numOfSlots} > 1")
+        h1.section Select a Slot
+        div.drinkSlot(ng-repeat="i in numberToArray( #{numOfSlots} ) track by $index", ng-click="selectSlot($index)") 
+          | {{ $index + 1 }}
+
       div#make(class="{{selectedDrink.name ? '' : 'noselection'}}")
         div#makeText.title MAKE
         div#makeProgress

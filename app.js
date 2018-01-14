@@ -4,6 +4,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var queue = require('queue');
+var config = require('config');
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -11,7 +13,7 @@ var add = require('./routes/add');
 var edit = require('./routes/edit');
 
 var mongoose = require('mongoose');
-var db = mongoose.createConnection('localhost', 'barmixvah');
+var db = mongoose.createConnection('mongodb://localhost/barmixvah');
 
 var DrinkSchema = require('./models/Drink.js').DrinkSchema;
 var Drink = db.model('drinks', DrinkSchema);
@@ -52,14 +54,32 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-
 var server = app.listen(3000, '0.0.0.0');
 var io = require('socket.io').listen(server);
 
+var q = queue();
+q.concurrency = 1;
+q.autostart = true;
+
 io.sockets.on('connection', function (socket) {
-  socket.on("Make Drink", function (ingredients) {
-    robot.pump(ingredients);
-    console.log(ingredients);
+  socket.on("Make Drink", function (ingredients, slot) {
+    if (q.length > 0) {
+      socket.emit("Drink Status", "Pending");
+    }
+    q.push(function (cb) {
+      console.log("Slot " + slot + " is now being served");
+      if (config.has('Robot.multiGlassMode') && 
+            config.get('Robot.multiGlassMode') == true) {
+        socket.emit("Drink Status", "Moving");
+        robot.moveToSlot(slot, function() {
+          socket.emit("Drink Status", "Making");
+          robot.pump(ingredients, cb);
+        });
+      } else {
+        socket.emit("Drink Status", "Making");
+        robot.pump(ingredients, cb);
+      }
+    });
   });
 
   socket.on("Start Pump", function (pump) {
@@ -70,7 +90,6 @@ io.sockets.on('connection', function (socket) {
     robot.stopPump(pump);
   });
 });
-
 
 db.once('open', function () {
   Pump.findOne({}, function (err, pump) {

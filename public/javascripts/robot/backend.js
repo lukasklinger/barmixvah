@@ -1,9 +1,16 @@
-var board, pump0, pump1, pump2, pump3, pump4;
+var board, pump0, pump1, pump2, pump3, pump4, stepper, endStopSwitch;
 
 var five = require('johnny-five');
+var config = require('config');
 
 board = new five.Board();
 board.on('ready', function () {
+  
+  if (config.has('Robot.multiGlassMode') && 
+        config.get('Robot.multiGlassMode') == true) {
+    initMultiGlassMode();
+  }
+
   // Counting down pins because that's the orientation 
   // that my Arduino happens to be in
   pump0 = new five.Led(7);
@@ -23,7 +30,7 @@ board.on('ready', function () {
   console.log("\033[31m[MSG] Bar Mixvah Ready\033[91m");
 });
 
-exports.pump = function (ingredients) {
+exports.pump = function (ingredients, cb) {
   console.log("Dispensing Drink");
   for (var i in ingredients) {
     (function (i) {
@@ -32,7 +39,73 @@ exports.pump = function (ingredients) {
       }, ingredients[i].delay);
     })(i);
   }
+  setTimeout(cb, ingredients[0].amount + ingredients[0].delay);
 };
+
+function initMultiGlassMode() {
+  endStopSwitch = new five.Switch(3);
+
+  // Test whether the switch is working properly
+  endStopSwitch.on("open", function() {
+    console.log('now open curcuit');
+  });
+
+  endStopSwitch.on("close", function() {
+    console.log('now CLOSED curcuit');
+  });
+
+  stepper = new five.Stepper({
+    type: five.Stepper.TYPE.DRIVER,
+    stepsPerRev: 200,
+    pins: {
+      step: 10,
+      dir: 11
+    }
+  });
+
+  homeStepper(stepper);
+}
+
+function homeStepper(stpr, callback) {
+    stpr.rpm(180).cw().accel(1600).decel(1600).step(1, function() {
+      if (endStopSwitch.isOpen) {
+        homeStepper(stpr, callback);
+      } else {
+        stpr.step({
+          steps: 10,
+          direction: five.Stepper.DIRECTION.CCW
+        }, function() {
+          console.log("Done homing stepper");
+          if (typeof callback === "function") {
+            callback();
+          }
+        });
+      }
+    });
+}
+
+exports.moveToSlot = function(slot, cb) {
+  homeStepper(stepper, function() {
+    console.log('im callback');
+    var stepsPerMM = config.get('Robot.stepperStepsPerMM'); 
+    var tubesOutputMountSizeMM =  config.get('Robot.tubesOutputMountSizeMM');  // TODO: What happens if the number of slots is bigger in case that the
+    // slot is not big enough for the tubes output mount?
+    var railSizeMM = config.get('Robot.railSizeMM');
+    var numOfSlot = config.get('Robot.numOfSlots');; 
+    var slotMargin = railSizeMM/numOfSlot;
+
+    var stepsToSlot = ((slotMargin/2 - tubesOutputMountSizeMM/2) + 
+      ((slot - 1) * slotMargin)) * stepsPerMM;
+    console.log("Slot " + slot + " requires " + stepsToSlot + " steps from home position");
+    stepper.step({
+      steps: stepsToSlot,
+      direction: five.Stepper.DIRECTION.CCW
+    }, function() {
+      console.log("Moved to slot " + slot);
+      cb();
+    });
+  });
+}
 
 function pumpMilliseconds(pump, ms) {
   exports.startPump(pump);
