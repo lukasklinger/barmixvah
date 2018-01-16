@@ -142,8 +142,8 @@ $(document).ready(function () {
 });
 
 function resizeCover(view) {
-  $('#cover').height(view.height());
-  $('#cover').css('padding-top', String(view.height()/2-140) + "px")
+  //$('#cover').height(view.height());
+ // $('#cover').css('padding-top', String(view.height()/2-140) + "px")
 }
 
 function hideControls() {
@@ -161,7 +161,7 @@ function resizeContainers() {
     $(this).height(size);
 
     var label = $(this).children('.drinkImage').children('.drinkName');
-    var margin = size - label.height() - 20;
+    var margin = size - label.height() - 40;
     label.css('margin-top', margin);
   });
 }

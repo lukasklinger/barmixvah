@@ -11,8 +11,8 @@ block content
   div#fullWidth(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); writeNumDuplicates()") 
     div#drinkScope.container-fluid
       div#cover
-        h1.title Bar Mixvah
-        h2.subtitle Automated Drink Mixing Robot
+        h1.title Barman
+        h2.subtitle Drink Mixing Robot
         div#pumps.row
           div.floatingPumpButtons
             div#plusMinus
@@ -25,8 +25,7 @@ block content
           div.pumpContainer(ng-repeat="pump in pumps.ingredients")
             select.mixers(ng-change="savePumpValue($index); writeNumDuplicates()", ng-model="pump.ingredient", ng-options="i for i in ingredientsList")
       div#drinks.row
-        h1.section Select a Drink
-        div.drinkContainer(ng-repeat="drink in drinks | orderBy: 'name' | filter: containsIngredients", ng-click="selectDrink(drink)")
+        div.drinkContainer.col-md-4.col-lg-3.col-xs-6(ng-repeat="drink in drinks | orderBy: 'name' | filter: containsIngredients", ng-click="selectDrink(drink)", style="padding-left:4px; padding-right:4px;")
           div.hiddenIngredientFloat(class="hiddenIngredients {{selectedDrink}}")
             ul
               li.ingredientText(ng-repeat="ingredient in drink.ingredients")
@@ -34,18 +33,37 @@ block content
           div.drinkImage(class="{{selectedDrink}}", style="opacity: 1.0; background-image: url('/images/drinks/{{drink.image || \'no_image.jpg\'}}')")
             div.drinkName
               | {{drink.name}}
-          
 
-      div#selectSize 
-        h1.section Select a Size
-        div#sizeSmall.drinkSize(ng-click="selectSize('40')") 40ml
-        div#sizeMedium.drinkSize(ng-click="selectSize('200')") 200ml
-        div#sizeLarge.drinkSize(ng-click="selectSize('400')")  400ml
+      div.row
+        div#selectSize.btn-group(data-toggle="buttons")
+          label.btn.drinkSize
+            input#sizeSmall(type="radio", name="options", autocomplete="off", ng-click="selectSize('40')") 
+            svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', x='0px', y='0px', viewbox='0 0 100 125', enable-background='new 0 0 100 100', xml:space='preserve')
+              g
+                path(d='M50,55.1c-6.6,0-12,1.3-12,2.9l3.4,23.3c0,1.6,3.8,2.9,8.6,2.9s8.6-1.3,8.6-2.9L62,57.9C62,56.4,56.6,55.1,50,55.1z    M50,56.6c5,0,8.4,0.7,9.9,1.3c-1.4,0.6-4.9,1.3-9.9,1.3s-8.4-0.7-9.9-1.3C41.6,57.3,45,56.6,50,56.6z M57.1,79.1   c-0.4,0.5-2.9,1.5-7.1,1.5s-6.6-1-7.1-1.5l-3.2-19.6c3.5,1.1,8.9,1.4,10.3,1.4s6.5-0.2,10-1.3L57.1,79.1z')
+                path(d='M50.1,78.7c-2.7,0-4.4-0.5-5.2-0.8l-2.6-15.7c3.2,0.6,6.6,0.7,7.8,0.7c0.2,0,3.9,0,7.6-0.7L55.4,78   C54.5,78.3,52.8,78.7,50.1,78.7z')
+          label.btn.drinkSize
+            input#sizeMedium(type="radio", name="options", autocomplete="off", ng-click="selectSize('200')")
+            svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', x='0px', y='0px', viewbox='0 0 100 125', enable-background='new 0 0 100 100', xml:space='preserve')
+              g
+                path(d='M57.4,26l-0.2,1.5c2.7,0.5,4.7,1.4,5.3,3c-1,0.8-3.2,1.6-6,2.2l-0.2,1.7c2.3-0.4,4.7-1,6.6-2l-2,44.5   c-0.6,1-5.7,3.2-11,3.2s-10.4-2.2-11-3.2L37,32c4.5,2.4,10.8,2.9,12.6,2.9c0.6,0,2,0,3.8-0.2l0.2-1.6c-1.1,0.1-2.3,0.2-3.5,0.2   c-6,0-10.9-1.9-12.7-3.2C38.1,28,43.9,27,49.9,27c1.5,0,3,0,4.4,0.1l0.2-1.6c-1.4-0.1-2.9-0.2-4.4-0.2c-8,0-14.4,1.7-14.4,5.1   l2.1,49.7c0,3.4,6.6,5.1,12.3,5.1s12.3-1.7,12.3-5.1l2.1-49.7C64.4,28.3,61.6,26.7,57.4,26z')
+                path(d='M50.1,74.3C50.1,74.3,50.2,74.3,50.1,74.3c0.3,0,0.5-0.2,0.6-0.4l6.8-57.1c0-0.3-0.2-0.5-0.4-0.6c-0.3,0-0.5,0.2-0.6,0.4   l-6.8,57.1C49.6,74,49.8,74.3,50.1,74.3z')
+                path(d='M52.6,41.1l0.1-1c0,0,0,0,0,0C44.8,40.3,40,38.5,40,38.5c-0.2-0.1-0.3,0-0.5,0.1c-0.1,0.1-0.2,0.3-0.2,0.4l0.6,7.2L41,76   c1.2,0.7,4.9,2.1,9,2.1s7.8-1.4,9-2.1l1.1-29.7l0.5-7c0-0.2-0.1-0.3-0.2-0.4c-0.1-0.1-0.3-0.1-0.5-0.1c-1.1,0.4-2.8,0.7-4.2,0.9   l-0.1,1c1.3-0.2,2.8-0.4,3.9-0.8L59.1,46c-1.5,0.4-2.9,0.7-4.2,0.8l-3.4,28.6l-3-0.4l3.3-28c-1.1,0-1.9,0-2.3,0   c-1.4,0-4.8-0.3-8.6-1.5l-0.6-6C42,40.2,46.3,41.3,52.6,41.1z')
+          label.btn.drinkSize
+            input#sizeLarge(type="radio", name="options", autocomplete="off", ng-click="selectSize('400')") 
+            svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', x='0px', y='0px', viewbox='0 0 100 125', enable-background='new 0 0 100 100', xml:space='preserve')
+              g
+                g
+                  path(d='M62.7,13.6l-0.2,1.5c1,0.5,1.8,1.1,2.1,1.8c-0.5,0.3-1.3,0.7-2.4,1L62,20c1.1-0.3,2.1-0.7,3-1.1l-2,64.5    c-0.6,1-7.7,3.2-13,3.2s-12.4-2.2-13-3.2L35,18.6c4.5,2.4,12.8,2.9,14.6,2.9c1,0,4.6-0.1,8.3-0.6l0.2-1.8    c-2.5,0.5-5.4,0.8-8.1,0.8c-6,0-12.9-1.9-14.7-3.2c0.8-2.1,8.5-3.1,14.6-3.1c2.8,0,6,0.1,8.7,0.6l0.2-1.5    c-2.7-0.5-5.7-0.7-8.8-0.7c-8,0-16.4,1.7-16.4,5.1l2.1,69.7c0,3.4,8.6,5.1,14.3,5.1s14.3-1.7,14.3-5.1L66.4,17    C66.4,15.6,64.9,14.5,62.7,13.6z')
+                  path(d='M53.5,81.5C53.5,81.5,53.6,81.5,53.5,81.5c0.4,0,0.6-0.2,0.7-0.6l8.2-77.5c0-0.4-0.2-0.7-0.5-0.8c-0.3,0-0.6,0.2-0.7,0.6    L53,80.7C53,81.1,53.2,81.5,53.5,81.5z')
+                  path(d='M56.6,33.4c-3.4,0.4-6.4,0.4-7,0.4c-0.1,0-6.3,0-11.8-1.7L39,82.5c1.8,0.8,5.4,2.2,11,2.2s9.2-1.4,11-2.2l1.3-50.3    c-0.5,0.2-1.1,0.3-1.7,0.4L55.4,83l-4-0.4L56.6,33.4z M44.2,68.6l-4.3-19.9c5.5-1.2,10.9,2.3,12.1,7.8    C53.1,62,49.7,67.4,44.2,68.6z')
+                  path(d='M42.3,49.5l-1.3,0l3.9,18l1.1-0.6c3.8-1.9,5.8-6.1,4.9-10.2C50.1,52.7,46.4,49.7,42.3,49.5z M46.3,64.4l-2.8-12.7    c2.7,0.6,4.9,2.7,5.5,5.5C49.6,60,48.5,62.8,46.3,64.4z')
 
-      div#selectSlot(ng-show="#{numOfSlots} > 1")
-        h1.section Select a Slot
-        div.drinkSlot(ng-repeat="i in numberToArray( #{numOfSlots} ) track by $index", ng-click="selectSlot($index)") 
-          | {{ $index + 1 }}
+      div.row(ng-show="#{numOfSlots} > 1")
+        div#selectSlot.btn-group(data-toggle="buttons", style="height:100px")
+          label.drinkSlot.btn(ng-repeat="i in numberToArray( #{numOfSlots} ) track by $index", ng-click="selectSlot($index)", style="height:100px") 
+            input(type="radio", name="options", autocomplete="off", checked)
+            | {{ $index + 1 }}
 
       div#make(class="{{selectedDrink.name ? '' : 'noselection'}}")
         div#makeText.title MAKE
