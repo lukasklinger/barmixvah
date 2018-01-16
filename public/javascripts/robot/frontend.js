@@ -90,14 +90,12 @@ $(document).ready(function () {
       pumpControlsVisible = false;
       $('#hiddenPumpControls').hide();
       $('#plusMinus').hide();
-      $(this).text("PUMP");
-      $(this).removeClass("active");
+      $('.pumpContainer').hide();
     } else {
       pumpControlsVisible = true;
       $('#hiddenPumpControls').show();
       $('#plusMinus').show();
-      $(this).text("x");
-      $(this).addClass("active");
+      $('.pumpContainer').show();
     }
   });
 
@@ -153,6 +151,7 @@ function hideControls() {
   // });
   $('#hiddenPumpControls').hide();
   $('#plusMinus').hide();
+  $('.pumpContainer').hide();
 }
 
 function resizeContainers() {

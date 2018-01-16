@@ -21,7 +21,7 @@ block content
             div#hiddenPumpControls
               div.pumpButton.singlePump(ng-repeat="pump in pumps.ingredients") {{$index}}
               div#allPumps.pumpButton.small All
-            div#pumpControlToggle.pumpButton PUMP
+            div#pumpControlToggle
           div.pumpContainer(ng-repeat="pump in pumps.ingredients")
             select.mixers(ng-change="savePumpValue($index); writeNumDuplicates()", ng-model="pump.ingredient", ng-options="i for i in ingredientsList")
       div#drinks.row
