@@ -54,7 +54,7 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-var server = app.listen(80, '0.0.0.0');
+var server = app.listen(3000, '0.0.0.0');
 var io = require('socket.io').listen(server);
 
 var q = queue();
