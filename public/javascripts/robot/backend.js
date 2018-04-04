@@ -26,6 +26,12 @@ board.on('ready', function () {
     p3: pump3,
     p4: pump4
   });
+  
+  pump0.on();
+  pump1.on();
+  pump2.on();
+  pump3.on();
+  pump4.on();
 
   console.log("\033[31m[MSG] Bar Mixvah Ready\033[91m");
 });
@@ -117,13 +123,13 @@ function pumpMilliseconds(pump, ms) {
 exports.startPump = function (pump) {
   console.log("\033[32m[PUMP] Starting " + pump + "\033[91m");
   var p = exports.usePump(pump);
-  p.on();
+  p.off();
 }
 
 exports.stopPump = function (pump) {
   console.log("\033[32m[PUMP] Stopping " + pump + "\033[91m");
   var p = exports.usePump(pump);
-  p.off();
+  p.on();
 }
 
 exports.usePump = function (pump) {
