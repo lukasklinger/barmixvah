@@ -1,6 +1,6 @@
 {
     "Robot": {
-      "multiGlassMode" : true,
+      "multiGlassMode" : false,
       "railSizeMM" : 170,
       "tubesOutputMountSizeMM" : 30, 
       "stepperStepsPerMM" : 5, // Nema 17 motor, driver on full step mode
