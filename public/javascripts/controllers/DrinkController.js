@@ -33,7 +33,7 @@ function DrinkController($scope, $http) {
     'Orange Juice', 'Apple Juice', 'Cranberry Juice', 'Pineapple Juice', 'Mango Juice', 'Grapefruit Juice', 'Lime Juice',
     'Coke', 'Sprite', 'Ginger Ale', 'Root Beer', 'Dr. Pepper',
     'Blue Liqueur', 'Sweet & Sour', 'Triple Sec', 'Kaluha', 'Peach Schnapps', 'Midori Melon',
-    'Champagne'
+    'Champagne', 'Grenadine Syrup', 'Blue Curacao'
   ];
 
   $scope.setDrinks = function (drinks) {
