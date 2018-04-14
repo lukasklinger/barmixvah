@@ -6,14 +6,14 @@ exports.index = function (Drink, Pump) {
     Drink.find({}, function (err, drinks) {
       Pump.find({}, function (err, pumps) {
 
-        var isMultiGlass = config.has('Robot.multiGlassMode') && 
+        var isMultiGlass = config.has('Robot.multiGlassMode') &&
           config.get('Robot.multiGlassMode') == true;
 
-        var numOfSlots = (isMultiGlass && config.has('Robot.numOfSlots') && 
+        var numOfSlots = (isMultiGlass && config.has('Robot.numOfSlots') &&
           config.get('Robot.numOfSlots') > 1) ? config.get('Robot.numOfSlots') : 1;
 
-        res.render('index', { 
-          title: "Bar Mixvah: The Automatic Bartender Robot" ,
+        res.render('index', {
+          title: "Bar Roboter" ,
           drinks: drinks,
           pumps: pumps,
           numOfSlots : numOfSlots
@@ -25,7 +25,7 @@ exports.index = function (Drink, Pump) {
 
 exports.updatePump = function (Pump) {
   return function (req, res) {
-    Pump.findOneAndUpdate({ _id: req.body._id }, 
+    Pump.findOneAndUpdate({ _id: req.body._id },
       {
         ingredients: req.body.ingredients
       },
