@@ -72,6 +72,14 @@ a {
   margin-right: 1px;
 }
 
+#pumpselector {
+  background-color: #E1E2E1;
+  text-align: center;
+  line-height: 0px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
 #drinkScope {
   text-align: center;
   padding: 0px;
@@ -87,6 +95,14 @@ a {
   margin-top:4px;
 }
 
+.pumpContainer {
+  display: inline-block;
+  min-height:300px;
+  min-width:300px;
+  line-height: 0.9em;
+  margin-top:4px;
+}
+
 .drinkImage {
   display: inline-block;
   background-position: center;
@@ -95,7 +111,29 @@ a {
   width: 100%;
 }
 
+.pumpImage {
+  display: inline-block;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
 .drinkName {
+  float: left;
+  bottom: 0px;
+  left:0px;
+  text-align: left;
+  position: relative;
+  color: #FFFFFF;
+  background-color: #00000075;
+  padding: 20px;
+  font-size: 0.7em;
+  width: 100%;
+  font-weight: bold
+}
+
+.pumpName {
   float: left;
   bottom: 0px;
   left:0px;

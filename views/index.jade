@@ -8,11 +8,11 @@ block head
   script(type='text/javascript', src='/javascripts/robot/frontend.js')
 
 block content
-  div#fullWidth(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); writeNumDuplicates()") 
+  div#fullWidth(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); writeNumDuplicates()")
     div#drinkScope.container-fluid
       div#cover
         h1.title BarRoboter
-        h2.subtitle Bar Roboter 1.0
+        h2.subtitle Bar Roboter 1.1
         div#pumps.row
           div.floatingPumpButtons
             div#plusMinus
@@ -29,15 +29,24 @@ block content
           div.hiddenIngredientFloat(class="hiddenIngredients {{selectedDrink}}")
             ul
               li.ingredientText(ng-repeat="ingredient in drink.ingredients")
-                | {{ingredient.name}} 
+                | {{ingredient.name}}
           div.drinkImage(class="{{selectedDrink}}", style="opacity: 1.0; background-image: url('/images/drinks/{{drink.image || \'no_image.jpg\'}}')")
             div.drinkName
               | {{drink.name}}
+      div#pumpselector.row
+        div.pumpContainer.col-md-4.col-lg-3.col-xs-6(ng-repeat="pump in pumps.ingredients", style="padding-left:4px; padding-right:4px;") {{$index}}
+          div.pumpImage(style="opacity: 1.0; background-image: url('/images/pump.jpg')")
+            div.pumpName
+              | {{pump.ingredient}}
+
+// resizeContainers in frontend.js
+// pumpContainer in style.css
+// selectDrink function in DrinkController.js
 
       div.row
         div#selectSize.btn-group(data-toggle="buttons")
           label.btn.drinkSize
-            input#sizeSmall(type="radio", name="options", autocomplete="off", ng-click="selectSize('40')") 
+            input#sizeSmall(type="radio", name="options", autocomplete="off", ng-click="selectSize('40')")
             svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', x='0px', y='0px', viewbox='0 0 100 125', enable-background='new 0 0 100 100', xml:space='preserve')
               g
                 path(d='M50,55.1c-6.6,0-12,1.3-12,2.9l3.4,23.3c0,1.6,3.8,2.9,8.6,2.9s8.6-1.3,8.6-2.9L62,57.9C62,56.4,56.6,55.1,50,55.1z    M50,56.6c5,0,8.4,0.7,9.9,1.3c-1.4,0.6-4.9,1.3-9.9,1.3s-8.4-0.7-9.9-1.3C41.6,57.3,45,56.6,50,56.6z M57.1,79.1   c-0.4,0.5-2.9,1.5-7.1,1.5s-6.6-1-7.1-1.5l-3.2-19.6c3.5,1.1,8.9,1.4,10.3,1.4s6.5-0.2,10-1.3L57.1,79.1z')
@@ -50,7 +59,7 @@ block content
                 path(d='M50.1,74.3C50.1,74.3,50.2,74.3,50.1,74.3c0.3,0,0.5-0.2,0.6-0.4l6.8-57.1c0-0.3-0.2-0.5-0.4-0.6c-0.3,0-0.5,0.2-0.6,0.4   l-6.8,57.1C49.6,74,49.8,74.3,50.1,74.3z')
                 path(d='M52.6,41.1l0.1-1c0,0,0,0,0,0C44.8,40.3,40,38.5,40,38.5c-0.2-0.1-0.3,0-0.5,0.1c-0.1,0.1-0.2,0.3-0.2,0.4l0.6,7.2L41,76   c1.2,0.7,4.9,2.1,9,2.1s7.8-1.4,9-2.1l1.1-29.7l0.5-7c0-0.2-0.1-0.3-0.2-0.4c-0.1-0.1-0.3-0.1-0.5-0.1c-1.1,0.4-2.8,0.7-4.2,0.9   l-0.1,1c1.3-0.2,2.8-0.4,3.9-0.8L59.1,46c-1.5,0.4-2.9,0.7-4.2,0.8l-3.4,28.6l-3-0.4l3.3-28c-1.1,0-1.9,0-2.3,0   c-1.4,0-4.8-0.3-8.6-1.5l-0.6-6C42,40.2,46.3,41.3,52.6,41.1z')
           label.btn.drinkSize
-            input#sizeLarge(type="radio", name="options", autocomplete="off", ng-click="selectSize('400')") 
+            input#sizeLarge(type="radio", name="options", autocomplete="off", ng-click="selectSize('400')")
             svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', x='0px', y='0px', viewbox='0 0 100 125', enable-background='new 0 0 100 100', xml:space='preserve')
               g
                 g
@@ -61,7 +70,7 @@ block content
 
       div.row(ng-show="#{numOfSlots} > 1")
         div#selectSlot.btn-group(data-toggle="buttons", style="height:100px")
-          label.drinkSlot.btn(ng-repeat="i in numberToArray( #{numOfSlots} ) track by $index", ng-click="selectSlot($index)", style="height:100px") 
+          label.drinkSlot.btn(ng-repeat="i in numberToArray( #{numOfSlots} ) track by $index", ng-click="selectSlot($index)", style="height:100px")
             input(type="radio", name="options", autocomplete="off", checked)
             | {{ $index + 1 }}
 
@@ -69,4 +78,3 @@ block content
         div#makeText.title MAKE
         div#makeProgress
 block foot
-  
