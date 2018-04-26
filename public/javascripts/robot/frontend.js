@@ -104,6 +104,7 @@ $(document).ready(function () {
   });
 
   var pumpControlsVisible = false;
+  var pumpContainerVisible = false;
   $('#pumpControlToggle').on('click touch', function () {
     if (pumpControlsVisible) {
       pumpControlsVisible = false;
@@ -115,6 +116,16 @@ $(document).ready(function () {
       $('#hiddenPumpControls').show();
       $('#plusMinus').show();
       $('.pumpContainer').show();
+    }
+  });
+
+  $('.pumpButton').on('click touch', function () {
+    if (pumpContainerVisible) {
+      pumpContainerVisible = false;
+      $('#pumpsLink').hide();
+    } else {
+      pumpContainerVisible = true;
+      $('#pumpsLink').show();
     }
   });
 

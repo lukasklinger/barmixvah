@@ -18,6 +18,7 @@ block content
             div#plusMinus
               div.pumpButton(ng-click="addPump()") +
               div.pumpButton(ng-click="removePump()") -
+              div.pumpButton P
             div#hiddenPumpControls
               div.pumpButton.singlePump(ng-repeat="pump in pumps.ingredients") {{$index}}
               div#allPumps.pumpButton.small All
