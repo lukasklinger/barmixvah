@@ -16,7 +16,7 @@ function DrinkController($scope, $http) {
   };
 
   $scope.sizes = [
-    { size: '40', time: '18000' },
+    { size: '40', time: '9000' },
     { size: '200', time: '90000' },
     { size: '400', time: '180000' }
   ];
