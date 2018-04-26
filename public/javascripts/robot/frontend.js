@@ -56,6 +56,11 @@ $(document).ready(function () {
     window.location.href = "/pumps";
   });
 
+  // redirect to drinks interface
+  $('#drinksLink').on('click touch', function () {
+    window.location.href = "/";
+  });
+
   $('#make').on('click touch', function () {
     if ($('#make').hasClass('noselection') === true) {
       alert('Please select a drink first.');
