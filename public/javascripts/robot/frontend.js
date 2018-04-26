@@ -119,16 +119,6 @@ $(document).ready(function () {
     }
   });
 
-  $('.pumpButton').on('click touch', function () {
-    if (pumpContainerVisible) {
-      pumpContainerVisible = false;
-      $('#pumpsLink').hide();
-    } else {
-      pumpContainerVisible = true;
-      $('#pumpsLink').show();
-    }
-  });
-
   $('.singlePump').on('click touch', function () {
     var pump = "pump" + $(this).index();
     console.log(pump);
