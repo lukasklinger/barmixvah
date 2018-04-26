@@ -51,7 +51,11 @@ $(document).ready(function () {
     }
   });
 
-  // Front end drink making
+  // redirect to pump interface
+  $('#pumpsLink').on('click touch', function () {
+    window.location.href = "/pumps";
+  });
+
   $('#make').on('click touch', function () {
     if ($('#make').hasClass('noselection') === true) {
       alert('Please select a drink first.');
