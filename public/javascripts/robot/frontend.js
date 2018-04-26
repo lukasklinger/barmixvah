@@ -109,7 +109,7 @@ $(document).ready(function () {
     }
   });
 
-  $('.pumpContainer').on('click touch', function () {
+  $('.pumpContainerBig').on('click touch', function () {
     var pump = "pump" + $(this).index();
     console.log(pump);
     if ($(this).hasClass('active')) {
