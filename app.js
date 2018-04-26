@@ -11,6 +11,7 @@ var routes = require('./routes/index');
 //var users = require('./routes/users');
 var add = require('./routes/add');
 var edit = require('./routes/edit');
+var pumps = require('./routes/pumps');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('mongodb://localhost/barmixvah');
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index(Drink, Pump));
 app.get('/add', add.form(Drink));
 app.get('/edit', edit.show(Drink));
+app.get('/pumps', pumps.access(Drink, Pump));
 //app.use('/users', users);
 
 app.post('/updatepump.json', routes.updatePump(Pump));
@@ -68,7 +70,7 @@ io.sockets.on('connection', function (socket) {
     }
     q.push(function (cb) {
       console.log("Slot " + slot + " is now being served");
-      if (config.has('Robot.multiGlassMode') && 
+      if (config.has('Robot.multiGlassMode') &&
             config.get('Robot.multiGlassMode') == true) {
         socket.emit("Drink Status", "Moving");
         robot.moveToSlot(slot, function() {
@@ -99,7 +101,7 @@ db.once('open', function () {
         ingredients: [ { label: "pump0", ingredient: "" } ]
       };
       Pump.create(pumps);
-    } 
+    }
   });
 });
 
