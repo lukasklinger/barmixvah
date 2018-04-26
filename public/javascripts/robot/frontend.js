@@ -41,6 +41,16 @@ $(document).ready(function () {
     resizeContainers();
   });
 
+  $('.pumpContainerBig').on('click touch', function () {
+    var pump = "pump" + $(this).index();
+    console.log(pump);
+    if ($(this).hasClass('active')) {
+      stopOnePumpMute($(this));
+    } else {
+      startOnePumpMute($(this));
+    }
+  });
+
   // Front end drink making
   $('#make').on('click touch', function () {
     if ($('#make').hasClass('noselection') === true) {
@@ -109,16 +119,6 @@ $(document).ready(function () {
     }
   });
 
-  $('.pumpContainerBig').on('click touch', function () {
-    var pump = "pump" + $(this).index();
-    console.log(pump);
-    if ($(this).hasClass('active')) {
-      stopOnePump($(this));
-    } else {
-      startOnePump($(this));
-    }
-  });
-
   $('#allPumps').on('click touch', function () {
     var children = $('#hiddenPumpControls').children();
 
@@ -170,6 +170,15 @@ function resizeContainers() {
     $(this).height(size);
 
     var label = $(this).children('.drinkImage').children('.drinkName');
+    var margin = size - label.height() - 40;
+    label.css('margin-top', margin);
+  });
+
+  $('.pumpContainerBig').each(function () {
+    var size = $(this).width();
+    $(this).height(size);
+
+    var label = $(this).children('.pumpImage').children('.pumpName');
     var margin = size - label.height() - 40;
     label.css('margin-top', margin);
   });
@@ -236,6 +245,18 @@ function startOnePump(self) {
 
 function stopOnePump(self) {
   self.text(self.index());
+  self.removeClass('active');
+  socket.emit('Stop Pump', "pump"+self.index());
+}
+
+function startOnePumpMute(self) {
+  self.addClass('runningPump');
+  self.addClass('active');
+  socket.emit('Start Pump', "pump"+self.index());
+}
+
+function stopOnePumpMute(self) {
+  self.removeClass('runningPump');
   self.removeClass('active');
   socket.emit('Stop Pump', "pump"+self.index());
 }
