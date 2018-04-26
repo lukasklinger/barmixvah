@@ -12,6 +12,7 @@ var routes = require('./routes/index');
 var add = require('./routes/add');
 var edit = require('./routes/edit');
 var pumps = require('./routes/pumps');
+var admin = require('./routes/admin');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('mongodb://localhost/barmixvah');
@@ -41,6 +42,7 @@ app.get('/', routes.index(Drink, Pump));
 app.get('/add', add.form(Drink));
 app.get('/edit', edit.show(Drink));
 app.get('/pumps', pumps.access(Drink, Pump));
+app.get('/admin', admin.access(Drink, Pump));
 //app.use('/users', users);
 
 app.post('/updatepump.json', routes.updatePump(Pump));
