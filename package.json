@@ -13,7 +13,7 @@
     "cookie-parser": "^1.0.1",
     "debug": "^0.7.4",
     "express": "^4.0.0",
-    "pug": "*",
+    "jade": "*",
     "mongoose": "~4.13.9",
     "morgan": "^1.0.0",
     "queue": "^4.4.2",
