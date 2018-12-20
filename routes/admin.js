@@ -35,6 +35,7 @@ exports.updatePump = function (Pump) {
         console.log(err);
         console.log('request body');
         console.log(req.body);
+        console.log(req.body.ingredients);
         if (pump == null) {
           Pump.create(req.body);
           pump = req.body;

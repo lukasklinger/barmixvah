@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon')
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -30,7 +30,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(favicon());
+app.use(favicon(path.join(__dirname, 'public', 'images', 'icon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -42,7 +42,6 @@ app.get('/add', add.form(Drink));
 app.get('/edit', edit.show(Drink));
 app.get('/pumps', pumps.access(Drink, Pump));
 app.get('/admin', admin.access(Drink, Pump));
-//app.use('/users', users);
 
 app.post('/updatepump.json', routes.updatePump(Pump));
 app.post('/drink.json', add.addDrink(Drink));

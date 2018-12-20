@@ -14,11 +14,11 @@
     "debug": "^0.7.4",
     "express": "^4.0.0",
     "pug": "*",
-    "mongoose": "^4.13.9",
+    "mongoose": "~4.13.9",
     "morgan": "^1.0.0",
     "queue": "^4.4.2",
     "socket.io": "^0.9.16",
-    "static-favicon": "^1.0.0",
+    "serve-favicon": "*",
     "johnny-five": "^0.14.2",
     "serialport": "*"
   },
