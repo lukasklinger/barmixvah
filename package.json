@@ -8,6 +8,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "node-gyp": "*",
     "body-parser": "~1.0.0",
     "config": "^1.29.2",
     "cookie-parser": "~1.0.1",
@@ -19,7 +20,8 @@
     "queue": "~4.4.2",
     "socket.io": "~0.9.16",
     "static-favicon": "~1.0.0",
-    "johnny-five": "^0.14.2"
+    "johnny-five": "^0.14.2",
+    "serialport": "*"
   },
   "license": "MIT"
 }
