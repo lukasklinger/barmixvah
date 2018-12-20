@@ -73,6 +73,7 @@ $(document).ready(function () {
 
     // Visual goodies
     console.log('Making Drink');
+    $('#music').trigger("play");
     $('#make').addClass('disabled');
 
     // Start dispensing drink

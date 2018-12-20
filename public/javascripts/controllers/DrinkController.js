@@ -93,7 +93,6 @@ function DrinkController($scope, $http) {
   };
 
   $scope.selectDrink = function (drink) {
-    //console.log('select', arguments, this);
     $scope.selectedDrink = drink;
 
     if ($scope.lastSelected) {
