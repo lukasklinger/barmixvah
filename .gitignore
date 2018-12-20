@@ -32,3 +32,5 @@ _ReSharper*/
 packages/
 
 node_modules/
+
+public/music\.mp3
