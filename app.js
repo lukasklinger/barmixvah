@@ -8,7 +8,6 @@ var queue = require('queue');
 var config = require('config');
 
 var routes = require('./routes/index');
-//var users = require('./routes/users');
 var add = require('./routes/add');
 var edit = require('./routes/edit');
 var pumps = require('./routes/pumps');
